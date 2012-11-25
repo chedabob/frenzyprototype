@@ -1,48 +1,37 @@
 package com.cbob.cabbinfeverprototype.scene;
 
+import java.util.Vector;
+
 import android.graphics.Point;
 
 public class NavigationNode {
-	private NavigationNode north, east, south, west;
 	private Point location;
 	private int id;
+	private Vector<NavigationNode> connections;
 
 	public NavigationNode (int id) {
 		this.id = id;
+		connections = new Vector<NavigationNode>();
 	}
 	
-	public void setNorth(NavigationNode north) {
-		this.north = north;
+	public void addConnection (NavigationNode n)
+	{
+		connections.add(n);
+		sortConnections();
 	}
-
-	public void setEast(NavigationNode east) {
-		this.east = east;
+	
+	private void sortConnections ()
+	{
+		// Was supposed to sort them clockwise, not sure if necessary
 	}
-
-	public void setSouth(NavigationNode south) {
-		this.south = south;
-	}
-
-	public void setWest(NavigationNode west) {
-		this.west = west;
+	
+	@SuppressWarnings("unchecked")
+	public Vector <NavigationNode> getConnections ()
+	{
+		return (Vector<NavigationNode>) connections.clone();
 	}
 	public void setLocation (Point p){
 		location = p;
-	}
-	public NavigationNode getNorth() {
-		return north;
-	}
-
-	public NavigationNode getEast() {
-		return east;
-	}
-
-	public NavigationNode getSouth() {
-		return south;
-	}
-
-	public NavigationNode getWest() {
-		return west;
 	}
 
 	public Point getLocation() {

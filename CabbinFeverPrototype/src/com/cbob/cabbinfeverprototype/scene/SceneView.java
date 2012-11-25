@@ -21,11 +21,7 @@ public class SceneView extends ImageView {
 		scene.buildTestNodes();
 		
 	}
-
-
 	
-	
-
 	private Runnable r = new Runnable() {
 		@Override
 		public void run() {
