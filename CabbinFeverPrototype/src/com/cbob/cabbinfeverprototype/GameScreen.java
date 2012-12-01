@@ -1,5 +1,8 @@
 package com.cbob.cabbinfeverprototype;
 
+import com.cbob.cabbinfeverprototype.canvasrenderer.CanvasRenderer;
+import com.cbob.cabbinfeverprototype.canvasrenderer.TextureManager;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
@@ -10,6 +13,9 @@ public class GameScreen extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_game_screen);
+		TextureManager.setActivity(this);
+		CanvasRenderer.GetInstance().AddRenderable(new GameScene());
+		
 	}
 
 	@Override
