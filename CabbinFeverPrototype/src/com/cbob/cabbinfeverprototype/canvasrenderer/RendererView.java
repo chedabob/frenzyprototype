@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.os.Handler;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.widget.ImageView;
 
 public class RendererView extends ImageView {
@@ -40,5 +41,11 @@ public class RendererView extends ImageView {
 		
 		renderer.Render(canvas);
 		h.postDelayed(r, FRAME_RATE);
+	}
+	
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		// TODO Auto-generated method stub
+		return super.onTouchEvent(event);
 	}
 }
