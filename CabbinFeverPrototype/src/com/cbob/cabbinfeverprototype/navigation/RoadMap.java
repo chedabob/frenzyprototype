@@ -2,6 +2,8 @@ package com.cbob.cabbinfeverprototype.navigation;
 
 import java.util.Vector;
 
+import com.cbob.cabbinfeverprototype.canvasrenderer.Helpers;
+
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -52,7 +54,7 @@ public class RoadMap {
 		nav1.addConnection(nodeForID(1));
 		nav1.addConnection(nodeForID(3));
 
-		// nav2.addConnection(nodeForID(0));
+		nav2.addConnection(nodeForID(0));
 		nav2.addConnection(nodeForID(4));
 		nav2.addConnection(nodeForID(2));
 
@@ -85,21 +87,65 @@ public class RoadMap {
 
 	}
 
-	public NavigationNode nodeForID (int id)
-	{
-		for (NavigationNode n : nodes)
-		{
+	public NavigationNode nodeForID(int id) {
+		for (NavigationNode n : nodes) {
 			if (n.getID() == id)
 				return n;
 		}
 		return null;
 	}
+
+	public Vector<NavigationNode> navigateToNodeFromNode (NavigationNode start, NavigationNode end)
+	{
+		Vector <NavigationNode> points = new Vector<NavigationNode>();
+		points.add(start);
+		
+		Point endLoc = end.getLocation();
+		
+		NavigationNode current = start;
+		
+		while (current != end)
+		{
+			NavigationNode candidate = null;
+			
+			for (NavigationNode n: current.getConnections())
+			{
+				if (candidate == null) {
+					candidate = n;
+					continue;
+				}
+				if (points.contains(n))
+					continue;
+				int nDistance = Helpers.distanceBetweenTwoPoints(n.getLocation(), endLoc);
+				int candidateDistance = Helpers.distanceBetweenTwoPoints(candidate.getLocation(), endLoc);
+				if (nDistance < candidateDistance )
+					candidate = n;
+			}
+			
+			current = candidate;
+			points.add(current);
+		}
+		return points;
+	}
+
+	public NavigationNode nodeForPoint(Point p, int threshold) {
+		for (NavigationNode n : nodes) {
+			Point nLocation = n.getLocation();
+			int distance = Helpers.distanceBetweenTwoPoints(nLocation, p);
+
+			if (distance < threshold)
+				return n;
+
+		}
+		return null;
+	}
+
 	public void buildBitmap(int width, int height) {
 		output = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 		Canvas c = new Canvas(output);
 		Paint p = new Paint();
 		p.setAntiAlias(true);
-		
+
 		p.setColor(Color.BLACK);
 		c.drawRect(new Rect(0, 0, c.getWidth(), c.getHeight()), p);
 
@@ -107,62 +153,58 @@ public class RoadMap {
 		// Draw the junction's kerbs
 		for (NavigationNode n : nodes) {
 			Point nLoc = n.getLocation();
-			c.drawCircle(nLoc.x, nLoc.y, (ROAD_WIDTH / 2) , p);
+			c.drawCircle(nLoc.x, nLoc.y, (ROAD_WIDTH / 2), p);
 		}
-		
+
 		p.setColor(Color.GRAY);
-		// Draw the junctions 
+		// Draw the junctions
 		for (NavigationNode n : nodes) {
 			Point nLoc = n.getLocation();
 			c.drawCircle(nLoc.x, nLoc.y, (ROAD_WIDTH / 2) - 2, p);
 		}
-		
+
 		p.setColor(Color.LTGRAY);
 		p.setStrokeWidth(ROAD_WIDTH);
 
 		// Draw the road's kerbs
 		for (NavigationNode n : nodes) {
 			Point nLoc = n.getLocation();
-			for (NavigationNode connection: n.getConnections())
-			{
-				c.drawLine(nLoc.x, nLoc.y, connection.getLocation().x, connection.getLocation().y, p);
+			for (NavigationNode connection : n.getConnections()) {
+				c.drawLine(nLoc.x, nLoc.y, connection.getLocation().x,
+						connection.getLocation().y, p);
 			}
 		}
-		
+
 		p.setColor(Color.GRAY);
 		p.setStrokeWidth(ROAD_WIDTH - 4);
 		// Draw the roads
 		for (NavigationNode n : nodes) {
 			Point nLoc = n.getLocation();
-			for (NavigationNode connection: n.getConnections())
-			{
-				c.drawLine(nLoc.x, nLoc.y, connection.getLocation().x, connection.getLocation().y, p);
+			for (NavigationNode connection : n.getConnections()) {
+				c.drawLine(nLoc.x, nLoc.y, connection.getLocation().x,
+						connection.getLocation().y, p);
 			}
 		}
-		
+
 		p.setColor(Color.WHITE);
 		// Draw roundabouts
 		for (NavigationNode n : nodes) {
-			if (n.getConnections().size() > 3)
-			{
+			if (n.getConnections().size() > 3) {
 				Point nLoc = n.getLocation();
 				c.drawCircle(nLoc.x, nLoc.y, (ROAD_WIDTH / 4), p);
 			}
 
 		}
 	}
-	
-	public Vector<NavigationNode> navigateFromAToB(NavigationNode a, NavigationNode b)
-	{
+
+	public Vector<NavigationNode> navigateFromAToB(NavigationNode a,
+			NavigationNode b) {
 		Vector<NavigationNode> set = new Vector<NavigationNode>();
-		if (a == b)
-		{
+		if (a == b) {
 			set.add(a);
 			return set;
 		}
-		
-		
-		
+
 		return set;
 	}
 }

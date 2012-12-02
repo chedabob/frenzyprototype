@@ -1,6 +1,10 @@
 package com.cbob.cabbinfeverprototype.canvasrenderer;
 
 
+import java.util.Vector;
+
+import com.cbob.cabbinfeverprototype.animations.Animation;
+
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
@@ -8,13 +12,16 @@ import android.graphics.Paint;
 
 import android.graphics.Point;
 
-public class Sprite extends Renderable {
+public class Sprite extends CanvasObject {
 	private Point location;
 	private Point scale;
 	private float rotation;
 	private Bitmap image;
 	private Boolean dirty; // Recalculates the matrix
 	private Matrix m;
+	
+	protected Vector<Animation> animations;
+	
 	public Sprite (int  resID)
 	{
 		image = TextureManager.Singleton().getImage(resID);
@@ -23,6 +30,7 @@ public class Sprite extends Renderable {
 		rotation = 0.0f;
 		dirty = true;
 		m = new Matrix();
+		animations = new Vector<Animation>();
 	}
 	
 	public void Render(Canvas c) {
@@ -77,4 +85,13 @@ public class Sprite extends Renderable {
 		dirty = true;
 	}	
 	
+	public synchronized void AddAnimation (Animation a)
+	{
+		animations.add(a);
+	}
+	
+	public synchronized void RemoveAnimation (Animation a)
+	{
+		animations.remove(a);
+	}
 }

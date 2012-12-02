@@ -32,7 +32,13 @@ public class RotateSpriteAnimation extends Animation {
 		_sprite.setRotation(_source + newDelta);
 		
 		if (_elapsed > _duration)
-			animator.RemoveAnimation(this);
+			this.Stop();
 		
+	}
+	
+	public void Stop ()
+	{
+		_sprite.RemoveAnimation(this);
+		animator.RemoveAnimation(this);
 	}
 }

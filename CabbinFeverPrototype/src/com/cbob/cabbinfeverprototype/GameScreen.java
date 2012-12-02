@@ -14,7 +14,7 @@ public class GameScreen extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_game_screen);
 		TextureManager.setActivity(this);
-		CanvasRenderer.GetInstance().AddRenderable(new GameScene());
+		CanvasRenderer.GetInstance().addScene(new GameScene());
 		
 	}
 

@@ -31,6 +31,7 @@ public class RendererView extends ImageView {
 			Date newTick = new Date();
 			long delta = newTick.getTime() - lastTick.getTime();
 			animator.Step(delta);
+			renderer.Update(delta);
 			lastTick = newTick;
 			invalidate();
 		}
@@ -45,7 +46,6 @@ public class RendererView extends ImageView {
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		// TODO Auto-generated method stub
-		return super.onTouchEvent(event);
+		return renderer.HandleMotionEvent(event);
 	}
 }

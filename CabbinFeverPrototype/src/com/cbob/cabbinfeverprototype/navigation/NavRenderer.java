@@ -2,9 +2,9 @@ package com.cbob.cabbinfeverprototype.navigation;
 
 import android.graphics.Canvas;
 
-import com.cbob.cabbinfeverprototype.canvasrenderer.Renderable;
+import com.cbob.cabbinfeverprototype.canvasrenderer.CanvasObject;
 
-public class NavRenderer extends Renderable {
+public class NavRenderer extends CanvasObject {
 	RoadMap scene;
 	
 	public RoadMap getScene ()

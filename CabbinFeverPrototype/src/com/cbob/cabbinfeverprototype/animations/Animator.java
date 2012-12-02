@@ -19,19 +19,21 @@ public class Animator {
 	{
 		animations = new Vector<Animation>();
 	}
-	public void AddAnimation (Animation a)
+	public synchronized void AddAnimation (Animation a)
 	{
 		a.animator = this;
 		animations.add(a);
 	}
 	
-	public void RemoveAnimation (Animation a)
+	public synchronized void RemoveAnimation (Animation a)
 	{
 		animations.remove(a);
 	}
-	public void Step (long delta)
+	
+	public synchronized void Step (long delta)
 	{
-		for (Animation a: animations)
+		Vector<Animation> temp = (Vector<Animation>)animations.clone();
+		for (Animation a: temp)
 		{
 			a.Step(delta);
 		}

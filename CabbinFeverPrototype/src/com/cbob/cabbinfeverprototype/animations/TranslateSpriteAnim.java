@@ -3,6 +3,7 @@ package com.cbob.cabbinfeverprototype.animations;
 
 import android.graphics.Point;
 
+import com.cbob.cabbinfeverprototype.canvasrenderer.Helpers;
 import com.cbob.cabbinfeverprototype.canvasrenderer.Sprite;
 
 public class TranslateSpriteAnim extends Animation {
@@ -18,13 +19,16 @@ public class TranslateSpriteAnim extends Animation {
 		_elapsed = 0;
 		
 		_diff = new Point (_source.x - _destination.x, _source.y - _destination.y);
+		
+		_sprite.AddAnimation(this);
 	}
 	@Override
 	public void Step(long delta) {
 		_elapsed += delta;
 		
 		float diff = (float)_elapsed / (float)_duration;
-		
+		diff = Helpers.ClampValue(0.0f, 1.0f, diff);
+
 		int x, y;
 		int deltaX, deltaY;
 		
@@ -40,6 +44,12 @@ public class TranslateSpriteAnim extends Animation {
 		
 		
 		if (_elapsed > _duration)
-			animator.RemoveAnimation(this);
+			this.Stop();
+	}
+	
+	public void Stop ()
+	{
+		_sprite.RemoveAnimation(this);
+		animator.RemoveAnimation(this);
 	}
 }
