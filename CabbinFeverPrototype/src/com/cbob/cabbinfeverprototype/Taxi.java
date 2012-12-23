@@ -3,6 +3,8 @@ package com.cbob.cabbinfeverprototype;
 import java.util.Vector;
 
 
+import android.util.Log;
+
 import com.cbob.cabbinfeverprototype.animations.Animation;
 import com.cbob.cabbinfeverprototype.animations.Animator;
 import com.cbob.cabbinfeverprototype.animations.RotateSpriteAnimation;
@@ -49,10 +51,10 @@ public class Taxi extends Sprite {
 		Animator.GetInstance().AddAnimation(anim1);
 		
 		double angle = Helpers.angleBetweenTwoPoints(currentNode.getLocation(),getLocation());
-		//angle = -angle + 90;
-		//if (angle > 180)
-		//	angle = -(angle - 180);
-		RotateSpriteAnimation anim2 = new RotateSpriteAnimation(this, (float)angle, 200);
+		//setRotation((float) angle);
+		//Log.i("Taxi1", String.format("Taxi:%.2f Dest: %.2f",getRotation(), angle));
+
+		RotateSpriteAnimation anim2 = new RotateSpriteAnimation(this, (float)angle , 200);
 		Animator.GetInstance().AddAnimation(anim2);
 	}
 	
@@ -78,13 +80,14 @@ public class Taxi extends Sprite {
 			TranslateSpriteAnim anim1 = new TranslateSpriteAnim(this, currentNode.getLocation(), Helpers.distanceBetweenTwoPoints(getLocation(), currentNode.getLocation())  * 10);
 			Animator.GetInstance().AddAnimation(anim1);
 			
-			double angle = Helpers.angleBetweenTwoPoints(getLocation(), currentNode.getLocation());
-			//angle = -angle + 90;
-			//if (angle > 180)
-			//	angle = -(angle - 180);
+			double angle = Helpers.angleBetweenTwoPoints(currentNode.getLocation(),getLocation());
+			//setRotation((float) angle);
+			//Log.i("Taxi2", String.format("Taxi:%.2f Dest: %.2f",getRotation(), angle));
+
+
 			RotateSpriteAnimation anim2 = new RotateSpriteAnimation(this, (float)angle, 200);
 			Animator.GetInstance().AddAnimation(anim2);
-
+			
 		}
 	}
 	public void StopAllAnims ()

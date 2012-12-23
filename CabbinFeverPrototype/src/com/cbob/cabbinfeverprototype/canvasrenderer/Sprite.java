@@ -72,6 +72,12 @@ public class Sprite extends CanvasObject {
 	}
 
 	public void setRotation(float rotation) {
+		
+		if (rotation >= 180)
+			rotation = rotation - 360;
+		else if (rotation <= -180)
+			rotation = rotation + 360;
+		
 		this.rotation = rotation;
 		dirty = true;
 	}

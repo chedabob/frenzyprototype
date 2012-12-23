@@ -17,6 +17,16 @@ public class RotateSpriteAnimation extends Animation {
 		_elapsed = 0;
 		
 		_diff = _destination - _source;
+		
+		if (_diff >= 180)
+		{
+			_diff -= 360;
+		}
+		else if (_diff <= -180)
+		{
+			_diff += 360;
+		}
+
 	}
 	
 	@Override
